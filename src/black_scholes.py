@@ -74,7 +74,8 @@ def bs_greeks(S, K, r, sigma, T, option_type="call"):
 
 def bs_implied_vol(price, S, K, r, T, option_type="call", tol=1e-8, max_iter=200):
     """
-    Newton-Raphson implied volatility solver.
+    Newton-Raphson implied volatility solver, used to find the volatility that matches a given option price
+    
     Returns:
     sigma_iv : implied volatility (annualized)
             - "What volatility would make Black-Scholes produce a price of exactly $5?"
@@ -173,6 +174,7 @@ def heston_call_price(S0, K, r, T, V0, kappa, theta, xi, rho,
         val = (np.exp(-1j * u * np.log(K)) * phi / (1j * u)).real
         return val
 
+    # Numerical integration via Gauss-Legendre or quad
     us = np.linspace(1e-6, integration_limit, n_points)
 
     P1 = 0.5 + (1 / np.pi) * np.trapezoid([integrand_P1(u) for u in us], us)
