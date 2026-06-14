@@ -6,7 +6,7 @@ from scipy.special import ndtr
 
 @dataclass
 class HestonParams:
-    S0: float = 100.0
+    S0: float = 100.0 # initial stock price
     V0: float = 0.04
     r: float = 0.05
     kappa: float = 2.0
@@ -131,9 +131,10 @@ def simulate_heston(
         "n_paths": n_total,
         "dt": dt,
         "scheme": scheme,
+        "T": p.T
     }
 
-    if return_paths:
+    if return_paths: # for asian options
         if antithetic:
             result["S_paths"] = np.vstack([S_paths, S_paths_anti])
             result["V_paths"] = np.vstack([V_paths, V_paths_anti])
@@ -238,5 +239,6 @@ def _step_qe(S, V, ZS, ZV, dt, sqrt_dt, p):
     S_new = np.exp(log_S)
 
     return S_new, V_new
+
 
 
